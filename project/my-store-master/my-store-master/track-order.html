@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Track Order</title>
+  <style>
+
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: #f4f6f8;
+    }
+
+    
+    header {
+      background-color: #074c63;
+      color: white;
+      padding: 1.2rem;
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: bold;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+    
+
+   
+    
+
+    .container {
+      width: 95%;
+      max-width: 800px;
+      margin: 90px auto 2rem auto; /* push content below fixed header */
+      background-color: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    
+
+.status-bar::-webkit-scrollbar {
+  height: 6px;
+}
+.status-bar::-webkit-scrollbar-thumb {
+  background: #999;
+  border-radius: 4px;
+}
+
+
+.status-step {
+  text-align: center;
+  min-width: 100px;
+  color: #888;
+  flex: 0 0 auto;
+}
+
+    
+    .status-step.active {
+      font-weight: bold;
+      color: #074c63;
+    }
+
+    .status-step.active .circle {
+      background-color: #074c63;
+    }
+    .action-btn-wrapper {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+    .print-btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      background-color: #074c63;
+      color: white;
+    }
+    .cancel-btn {
+      background-color: crimson;
+    }
+    .no-orders {
+      text-align: center;
+      color: #777;
+      font-size: 1.4rem;
+      margin-top: 4rem;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .back-btn {
+      position: absolute;
+      left: 20px;
+      top: 10px;
+      font-size: 2rem;
+      cursor: pointer;
+      color: white;
+      user-select: none;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .back-btn:hover {
+      color: #ffd700;
+      transform: translateX(-5px) scale(1.1);
+    }
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .summary h3 {
+      margin-bottom: 1.5rem;
+    }
+    .status-bar {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 3rem;
+    }
+    @media (max-width: 600px) {
+      .timeline-header div {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+      .summary, .status-bar, .action-btn-wrapper {
+        text-align: center;
+      }
+    }
+
+    
+   
+    
+    .timeline {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-wrap: nowrap;
+      min-width: max-content;
+      
+    }
+    
+
+    .timeline-wrapper {
+      position: relative;
+      height: 40px;
+      margin: 40px ;
+    
+    }
+  
+    .progress-line {
+      position: absolute;
+      top: 18px;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background-color: #ccc;
+      border-radius: 10px;
+      z-index: 1;
+    }
+  
+    .progress-fill {
+      position: absolute;
+      top: 18px; /* Match this with .progress-line */
+      left: 0;
+      height: 6px;
+      background-color: #074c63;
+      border-radius: 3px;
+      z-index: 2;
+      width: 0%;
+      transition: width 0.5s ease-in-out;
+    }
+
+    
+
+    .current-label {
+      position: absolute;
+      top: -28px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      font-weight: bold;
+      color: #074c63;
+      animation: pulse 1s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { opacity: 0.3; transform: translateX(-50%) scale(1); }
+      50% { opacity: 1; transform: translateX(-50%) scale(1.2); }
+      100% { opacity: 0.3; transform: translateX(-50%) scale(1); }
+    }
+    
+  
+    .timeline-step {
+      position: absolute;
+      top: 5px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #ccc;
+      color: white;
+      text-align: center;
+      line-height: 32px;
+      font-size: 16px;
+      z-index: 3;
+      transition: background-color 0.4s ease;
+    }
+  
+    .timeline-step.active {
+      background: #074c63;
+    }
+  
+    .timeline-label {
+      position: absolute;
+      top: 42px;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: #555;
+      text-align: center;
+    }
+
+    .timeline-wrapper {
+      position: relative;
+      height: 40px;
+      margin: 40px;
+      min-width: 600px; /* ✅ Force overflow if screen is narrow */
+    }
+    
+    .timeline-scroll {
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      padding-bottom: 12px;
+    }
+    
+    
+    .timeline-scroll::-webkit-scrollbar {
+      height: 6px;
+    }
+    
+    .timeline-scroll::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+    }
+    
+    .timeline-scroll::-webkit-scrollbar-track {
+      background: #eee;
+    }
+    
+  </style>
+</head>
+<body>
+  <header>
+    <span class="back-btn" onclick="window.location.href='index.html'">&#8592;</span>
+    📦 Track Order
+  </header>
+  <div class="container" id="orderContainer"></div>
+  <script>
+    function getStatusSteps(dateStr) {
+      const orderDate = new Date(dateStr);
+      const today = new Date();
+      const diffDays = Math.floor((today - orderDate) / (1000 * 60 * 60 * 24));
+      const steps = ["✔", "📦", "🚚", "📍", "✅"];
+      const labels = ["Order Placed", "Packed", "Shipped", "Out for Delivery", "Delivered"];
+      return steps.map((icon, i) => `
+        <div class="status-step ${diffDays >= i ? 'active' : ''}">
+          <div class="circle">${icon}</div>
+          <div>${labels[i]}</div>
+        </div>
+      `).join('');
+    }
+
+    function renderTrackOrder() {
+      const orders = JSON.parse(localStorage.getItem("orders")) || [];
+      const checkout = JSON.parse(localStorage.getItem("checkoutDetails")) || {};
+      const email = checkout.email || "guest@example.com";
+      const userOrders = orders.filter(o => o.email === email && !o.cancelled);
+    
+      if (userOrders.length === 0) {
+        document.getElementById("orderContainer").innerHTML = `<div class='no-orders'>🚫 No current orders to track</div>`;
+        return;
+      }
+    
+      const trackOrderId = localStorage.getItem("trackOrderId");
+const latestOrder = userOrders.find(o => o.id === trackOrderId) || userOrders[0];
+
+      const orderDate = new Date(latestOrder.date);
+    
+      const paymentTag = latestOrder.paymentMode === 'COD'
+        ? `<span style="color:red;font-weight:600"> - COD</span>`
+        : `<span style="color:blue;font-weight:600"> - UPI</span>`;
+    
+      const content = `
+        <div style="text-align:center; font-weight:600; font-size:1.05rem; margin-bottom:2.5rem;">
+          ${latestOrder.email}
+        </div>
+    
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; margin-bottom:2.5rem;">
+          <div><strong>Ordered on</strong><br>${orderDate.toDateString()}</div>
+          <div style="text-align:right!;"><strong>Estimated delivery</strong><br>by ${latestOrder.estimatedDelivery} ${paymentTag}</div>
+        </div>
+    
+        <!-- ✅ Progress Timeline Card -->
+     <!-- ✅ Progress Timeline Card -->
+<div style="background:#f1f1f1; border-radius:12px; padding:1rem 1.2rem; margin-bottom:2rem;">
+  <div class="timeline-scroll">
+    <div class="timeline-wrapper">
+      <div class="progress-line"></div>
+      <div class="progress-fill" id="progressFill"></div>
+      <!-- Circles and labels will be injected here -->
+    </div>
+  </div>
+</div>
+
+    
+        <div class="summary" style="text-align:left;">
+          <h3 style="margin-bottom:1.5rem;">Summary ${paymentTag}</h3>
+          <div style="margin-bottom: 2rem;">
+            ${latestOrder.items.map(item => `
+              <div class="item" style="display:flex; align-items:center; gap:1rem; margin-bottom:1.2rem;">
+                <img src="${item.image}" width="50" height="50" style="border-radius: 8px;"> 
+                <span>${item.name} — ₹${item.price}</span>
+              </div>
+            `).join('')}
+          </div>
+    
+          <div class="action-btn-wrapper" style="margin-top:2rem;">
+            <button class="print-btn" onclick="printSummary()">🖨 Print Summary</button>
+            <button class="print-btn cancel-btn" onclick="cancelLatestOrder()">❌ Cancel Order</button>
+          </div>
+        </div>
+      `;
+    
+      document.getElementById("orderContainer").innerHTML = content;
+      createProgressTimeline(latestOrder.date);
+    }
+    
+  
+    function createProgressTimeline(orderDateStr) {
+      const steps = ["✔", "📦", "🚚", "📍", "✅"];
+      const labels = ["Order Placed", "Packed", "Shipped", "Out for Delivery", "Delivered"];
+      const total = steps.length;
+      const orderDate = new Date(orderDateStr);
+      const today = new Date();
+      const diffDays = Math.floor((today - orderDate) / (1000 * 60 * 60 * 24));
+      const container = document.querySelector(".timeline-wrapper");
+      const gapPercent = 100 / (total - 1);
+  
+      // Add circles and labels
+      steps.forEach((icon, i) => {
+        const leftPercent = i * gapPercent;
+      
+        const circle = document.createElement("div");
+        circle.className = "timeline-step" + (diffDays >= i ? " active" : "");
+        circle.style.left = `calc(${leftPercent}% - 16px)`;
+        circle.innerHTML = icon;
+        container.appendChild(circle);
+      
+        // Label below icon
+        const label = document.createElement("div");
+        label.className = "timeline-label";
+        label.style.left = `${leftPercent}%`;
+        label.innerText = labels[i];
+        container.appendChild(label);
+      
+        // Add "Current" above the current step
+        if (diffDays === i) {
+          const current = document.createElement("div");
+          current.className = "current-label";
+          current.innerText = "Current";
+          circle.appendChild(current); // Append to icon
+        }
+      });
+      
+  
+      // Fill line
+      const progress = document.getElementById("progressFill");
+      const fillPercent = Math.min((diffDays / (total - 1)) * 100, 100);
+      progress.style.width = `${fillPercent}%`;
+    }
+  
+    renderTrackOrder();
+
+
+    function cancelLatestOrder() {
+      const orders = JSON.parse(localStorage.getItem("orders")) || [];
+      const email = JSON.parse(localStorage.getItem("checkoutDetails"))?.email || "guest@example.com";
+  
+      const index = orders.map((o, i) => ({ o, i }))
+        .filter(obj => obj.o.email === email && !obj.o.cancelled)
+        .map(x => x.i)
+        .pop();
+  
+      if (index !== undefined) {
+        if (confirm("Are you sure you want to cancel this order?")) {
+          orders[index].cancelled = true;
+          localStorage.setItem("orders", JSON.stringify(orders));
+          alert("✅ Your order has been cancelled.");
+          renderTrackOrder();
+        }
+      }
+    }
+
+
+
+    async function printSummary() {
+      const orders = JSON.parse(localStorage.getItem("orders")) || [];
+      const addressData = JSON.parse(localStorage.getItem("checkoutDetails")) || {};
+      const latestOrder = orders.slice(-1)[0];
+    
+      const companyName = "MAHAVEER ENTERPRISES";
+      const gstin = "29GHUPS1629Q1ZZ";
+      const customerName = addressData.name || "Customer Name not found";
+      const email = latestOrder?.email || "guest@example.com";
+      const paymentMode = latestOrder?.paymentMode || "N/A";
+    
+      let address = "";
+      if (addressData.deliveryAddress) {
+        address = addressData.deliveryAddress;
+      } else {
+        address = `
+          ${addressData.name || "Name not found"}<br>
+          ${addressData.currentAddress || "Address not found"}<br>
+          ${addressData.city || ""} ${addressData.state || ""} ${addressData.pincode || ""}<br>
+          ${addressData.phone || ""}
+        `.trim();
+      }
+    
+      const orderDate = new Date(latestOrder.date);
+      const today = new Date();
+      const diffDays = Math.floor((today - orderDate) / (1000 * 60 * 60 * 24));
+    
+      const steps = [
+        { name: "Order Placed", icon: "✔" },
+        { name: "Packed", icon: "📦" },
+        { name: "Shipped", icon: "🚚" },
+        { name: "Out for Delivery", icon: "📍" },
+        { name: "Delivered", icon: "✅" }
+      ];
+    
+      const statusHTML = steps.map((step, i) => {
+        return `<li>${diffDays >= i ? '✅' : '⬜'} ${step.name}</li>`;
+      }).join('');
+    
+      const itemsHTML = latestOrder.items.map((item, index) => {
+        const pageBreak = index > 0 && index % 10 === 0 ? '<div class="page-break"></div>' : '';
+        return `
+          ${pageBreak}
+          <li class="item">
+            <img src="${item.image || 'https://via.placeholder.com/50'}" />
+            ${item.name} — ₹${item.price}
+          </li>
+        `;
+      }).join('');
+    
+      const choice = confirm("Click OK to Print, or Cancel to Download PDF");
+    
+      if (choice) {
+        const w = window.open();
+        w.document.write(`
+          <html>
+            <head>
+              <title>Order Summary</title>
+              <style>
+                body {
+                  font-family: Arial, sans-serif;
+                  padding: 30px;
+                  font-size: 14px;
+                  color: #333;
+                }
+                .header {
+                  border-bottom: 2px solid #000;
+                  padding-bottom: 10px;
+                  margin-bottom: 20px;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                }
+                .header .title {
+                  flex-grow: 1;
+                  text-align: center;
+                  font-size: 16px;
+                  color: #074c63;
+                  font-weight: bold;
+                  text-transform: uppercase;
+                  letter-spacing: 1px;
+                }
+                .gstin {
+                  font-size: 10px;
+                  color: #444;
+                  white-space: nowrap;
+                }
+                .section-title {
+                  text-align: center;
+                  font-size: 14px;
+                  font-weight: bold;
+                  text-decoration: underline;
+                  margin-bottom: 20px;
+                }
+                .section { margin-bottom: 25px; }
+                ul { padding-left: 20px; }
+                .item { margin-bottom: 12px; }
+                img {
+                  width: 50px;
+                  height: 50px;
+                  object-fit: cover;
+                  vertical-align: middle;
+                  margin-right: 10px;
+                  border-radius: 8px;
+                }
+                .label { font-weight: bold; color: #333; }
+                .footer {
+                  position: fixed;
+                  bottom: 20px;
+                  left: 30px;
+                  font-size: 10px;
+                  color: #555;
+                }
+                .page-break {
+                  page-break-before: always;
+                  margin-top: 60px;
+                }
+                @media print {
+                  @page { margin: 0; }
+                  body { margin: 0.8in; }
+                }
+              </style>
+            </head>
+            <body>
+              <div class="header">
+                <div class="gstin">GSTIN: ${gstin}</div>
+                <div class="title">${companyName}</div>
+                <div style="width: 60px;"></div>
+              </div>
+    
+              <div class="section-title">Track Order - Summary</div>
+              <div class="section"><span class="label">Customer Name:</span> ${customerName}</div>
+              <div class="section"><span class="label">Customer Email:</span> ${email}</div>
+              <div class="section"><span class="label">Delivery Address:</span><br>${address}</div>
+              <div class="section"><span class="label">Ordered on:</span> ${orderDate.toDateString()}</div>
+              <div class="section"><span class="label">Estimated Delivery:</span> ${latestOrder.estimatedDelivery}</div>
+              <div class="section"><span class="label">Payment Mode:</span> ${paymentMode}</div>
+    
+              <hr>
+    
+              <div class="section">
+                <span class="label">Order Status:</span>
+                <ul>${statusHTML}</ul>
+              </div>
+    
+              <hr>
+    
+              <div class="section">
+                <span class="label">Items Ordered:</span>
+                <ul>${itemsHTML}</ul>
+              </div>
+    
+              <div class="footer">GSTIN: ${gstin}</div>
+            </body>
+          </html>
+        `);
+        w.document.close();
+        setTimeout(() => w.print(), 1000);
+      } else {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        let y = 10;
+    
+        doc.setFontSize(16);
+        doc.text(companyName, 105, y, null, null, 'center'); y += 6;
+        doc.setFontSize(10);
+        doc.text(`GSTIN: ${gstin}`, 180, 10, null, null, 'right'); y += 6;
+    
+        doc.setFontSize(14);
+        doc.text("Track Order - Summary", 105, y, null, null, 'center'); y += 10;
+    
+        doc.setFontSize(12);
+        doc.text(`Customer Name: ${customerName}`, 10, y); y += 8;
+        doc.text(`Customer Email: ${email}`, 10, y); y += 8;
+        doc.text(`Delivery Address: ${address.replace(/<br>/g, ', ')}`, 10, y); y += 8;
+        doc.text(`Ordered on: ${orderDate.toDateString()}`, 10, y); y += 8;
+        doc.text(`Estimated delivery: ${latestOrder.estimatedDelivery}`, 10, y); y += 8;
+        doc.text(`Payment Mode: ${paymentMode}`, 10, y); y += 12;
+    
+        doc.text("Order Status:", 10, y); y += 8;
+        steps.forEach((step, i) => {
+          doc.text(`${diffDays >= i ? '✅' : '⬜'} ${step.name}`, 12, y); y += 8;
+        });
+    
+        y += 5;
+        doc.text("Items:", 10, y); y += 8;
+        latestOrder.items.forEach(item => {
+          doc.text(`- ${item.name} — ₹${item.price}`, 12, y); y += 8;
+        });
+    
+        doc.setFontSize(10);
+        doc.text(`GSTIN: ${gstin}`, 10, 285);
+        doc.save("Order_Summary.pdf");
+      }
+    }
+    
+    
+    
+  </script>
+</body>
+</html>

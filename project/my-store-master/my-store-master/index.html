@@ -1,0 +1,2489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MAHAVEER ENTERPRISES</title>
+  <style>
+    body {
+      margin: 0;
+      padding-top: 80px; /* equal to header height */
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      overflow-x: hidden;
+    }
+    
+    
+
+
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+
+/* Cart floating button */
+
+    
+    
+
+/* Icon wrapper */
+.cart-icon-wrapper {
+  position: relative;
+  font-size: 1.8rem;
+  color: white;
+  line-height: 1;
+}
+
+/* Red badge counter */
+.cart-count {
+  position: absolute;
+  top: -0.6rem;
+  right: -0.6rem;
+  background-color: red;
+  color: white;
+  font-size: 0.65rem;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 2px 6px;
+  line-height: 1;
+  min-width: 18px;
+  text-align: center;
+}
+
+//* Responsive adjustment for smaller screens */
+@media (max-width: 600px) {
+  .cart {
+    bottom: 1114.5rem;  /* Adjusted for mobile too */
+    right: 2.5rem;
+    padding: 0.7rem;
+  }
+}
+
+
+  .cart-icon-wrapper {
+    font-size: 1.5rem;
+  }
+
+  .cart-count {
+    font-size: 0.6rem;
+    top: -0.5rem;
+    right: -0.5rem;
+  }
+}
+
+
+@keyframes cartBounce {
+  0%   { transform: scale(1); }
+  20%  { transform: scale(1.2); }
+  40%  { transform: scale(0.9); }
+  60%  { transform: scale(1.1); }
+  80%  { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+.cart.bounce {
+  animation: cartBounce 0.6s ease;
+}
+
+    
+    
+    .profile-card {
+      position: absolute;
+      top: 70px;
+      right: 20px;
+      width: 220px;
+      padding: 1rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      z-index: 1000;
+    }
+    
+    .profile-pic {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 0.5rem;
+    }
+    
+    .profile-card h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #333;
+    }
+    
+    .profile-card p {
+      margin: 0.2rem 0 0;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+
+
+    .menu-close-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      padding: 10px 12px 0 0;
+    }
+    
+    .menu-close-icon {
+      font-size: 24px;
+      color: #333;
+      cursor: pointer;
+      background: none;
+      border: none;
+      transition: transform 0.2s ease;
+    }
+    
+    .menu-close-icon:hover {
+      transform: scale(1.2);
+      color: red;
+    }
+
+    
+    .menu-dropdown {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 10px;
+      width: 260px;
+      background-color: #ffffff;
+      border-radius: 16px;
+      padding: 16px 12px 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      animation: fadeIn 0.3s ease forwards;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .menu-close-icon {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      align-self: flex-end;
+      cursor: pointer;
+      margin-bottom: 16px;
+    }
+    
+    .menu-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.4);
+      z-index: 1000;
+      display: none;
+    }
+    
+    @media (max-width: 768px) {
+      .menu-dropdown {
+        width: 80%;
+      }
+    }
+    
+    
+    /* Header with title and close */
+    .menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    
+    .menu-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #0b4127;
+    }
+    
+    .menu-close-icon {
+      font-size: 22px;
+      color: #333;
+      cursor: pointer;
+      background: none;
+      border: none;
+      line-height: 1;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+    
+    .menu-close-icon:hover {
+      transform: scale(1.3);
+      color: red;
+    }
+    
+    /* Menu items */
+    .menu-dropdown a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      margin: 6px 0;
+      text-decoration: none;
+      color: #333;
+      background-color: #f4f4f4;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: background 0.25s ease;
+    }
+    
+    .menu-dropdown a:hover {
+      background-color: #e7ecee;
+    }
+    
+    /* Logout button */
+    .menu-dropdown button {
+      margin-top: 12px;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+    
+    .menu-dropdown button:hover {
+      background-color: #c82333;
+    }
+    
+
+    /* Smooth transitions for buttons and cards */
+button, .product-card, .heart-btn {
+  transition: all 0.3s ease-in-out;
+}
+
+button:hover, .product-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.heart-btn:hover {
+  color: red;
+}
+
+
+    .home-buttons button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #0b4127;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .home-buttons button:hover {
+      background-color: #145d3b;
+    }
+    
+
+    header {
+      position: fixed !important;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
+      height: 80px;
+      background-color: rgb(11, 65, 39);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.7rem 1rem;
+    }
+    
+    
+
+    .main-body-wrapper {
+  background-color: rgb(34, 61, 48);
+  min-height: 100vh;
+  padding-bottom: 100px;
+}
+
+
+/* Heart Button */
+.heart-btn {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  position: absolute;
+  top: 5px;
+  right: 3px;
+  cursor: pointer;
+  color: #e60023;
+  transition: transform 0.2s ease;
+}
+
+.heart-btn:hover {
+  transform: scale(1.2);
+}
+
+
+
+
+
+
+    .menu-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .menu-button,
+    .search-icon,
+    .cart-icon {
+      font-size: 1.5rem;
+      background: none;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 1;
+    }
+
+    .logo-img {
+      max-height: 80px;
+      max-width: 400px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .menu-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .signin-icon {
+      font-size: 1.5rem;
+      color: white;
+      text-decoration: none;
+      transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+    }
+
+    .signin-icon:hover {
+      transform: scale(1.3);
+      color: #ffdd57;
+      cursor: pointer;
+    }
+
+    .cart-icon:hover {
+      transform: scale(1.3);
+      color: #ffc107;
+    }
+
+    .menu-dropdown {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 10px;
+      width: 240px;
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      animation: slideDown 0.3s ease forwards;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: scaleY(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: scaleY(1);
+      }
+    }
+
+    .main-content-wrapper {
+  background-color: rgb(11, 65, 39);
+  min-height: 100vh;
+  padding-bottom: 100px;
+  box-sizing: border-box;
+}
+
+/* Existing styles */
+.home-background-section {
+  min-height: calc(100vh - 80px); /* full screen minus header */
+  background-image: url('home_below.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.home-content {
+  background: rgba(0, 0, 0, 0.5); /* dark overlay */
+  padding: 30px;
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+  max-width: 90%;
+}
+
+/* Optional second section styling */
+.custom-section {
+  padding: 40px 20px;
+  color: white;
+  text-align: center;
+}
+
+/* Responsive fix */
+@media (max-width: 768px) {
+  .home-background-section {
+    min-height: auto;
+    padding: 40px 10px;
+    background-position: top;
+  }
+  .home-content h1 {
+    font-size: 1.5rem;
+  }
+  .home-content p {
+    font-size: 1rem;
+  }
+}
+
+
+
+
+    .menu-dropdown a,
+    .menu-dropdown button {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      margin: 5px 0;
+      text-decoration: none;
+      color: #333;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+
+    .menu-dropdown a:hover,
+    .menu-dropdown button:hover {
+      background-color: #e2e6ea;
+    }
+
+    .menu-dropdown button {
+      background-color: red;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 10px;
+      width: 100%;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 45px;
+      box-sizing: border-box;
+    }
+
+    .search-container {
+      position: absolute;
+      top: 50%;
+      right: 70px;
+      transform: translateY(-50%);
+      background: white;
+      padding: 8px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      display: none;
+      z-index: 999;
+    }
+
+    .search-container input {
+      padding: 6px;
+      width: 180px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .search-container .close-btn {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      margin-left: 8px;
+    }
+
+    .search-icon:hover {
+      transform: scale(1.3);
+      color: #ffc107;
+    }
+
+    .products-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.1rem;
+      padding: 2rem 1.5rem;
+    }
+    
+
+    .product-card {
+      position: relative;
+      background: white;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 240px;
+      flex: 1 1 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.2s ease;
+    }
+    
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+    
+    .product-card h3 {
+      font-size: 1rem;
+      margin: 0.8rem 0 0.4rem;
+      text-align: center;
+    }
+    
+    .product-card p {
+      font-size: 0.9rem;
+      text-align: center;
+      color: #333;
+      margin: 0.3rem 0;
+    }
+    
+    .product-card button {
+      margin-top: auto;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 0.7rem 1rem;
+      border-radius: 58px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+    
+    .product-card button:hover {
+      background-color: #218838;
+    }
+    
+    
+
+    .cart {
+      position: fixed !important;
+      bottom: 1rem !important;   /* ✅ Try values like 4rem, 8rem, etc. */
+      right: 1rem !important;
+      background-color: #ffc107;
+      padding: 1rem;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
+    
+
+    .cart-icon {
+      position: relative;
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .cart-badge {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background-color: red;
+      color: white;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 50%;
+      font-weight: bold;
+      display: none; /* initially hidden if no items */
+    }
+    
+
+    @media (max-width: 600px) {
+      .product-card {
+        width: 90%;
+      }
+    }
+
+
+.vedic-section {
+  background-color: rgb(11, 65, 39);
+  padding: 40px 20px;
+  color: white;
+  text-align: left;
+}
+
+.vedic-section h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Main container for cards */
+.vedic-slider {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+/* Card styles for desktop (2 cards side-by-side) */
+.vedic-card {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  width: 46%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  text-align: left;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.vedic-card:hover {
+  transform: translateY(-5px);
+}
+
+.vedic-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.vedic-card p {
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  color: #f8f9fa;
+}
+
+.shop-now-text {
+  font-weight: bold;
+  color: #ffc107;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-top: 8px;
+  display: inline-block;
+  transition: text-decoration 0.2s ease;
+}
+
+.shop-now-text:hover {
+  text-decoration: underline;
+}
+
+/* On mobile: show horizontal slider behavior */
+@media (max-width: 768px) {
+  .vedic-slider {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .vedic-card {
+    flex: 0 0 85%;
+    max-width: 85%;
+    scroll-snap-align: start;
+    margin-right: 15px;
+  }
+}
+
+
+.product-card {
+  position: relative;
+}
+
+.product-card .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: red;
+  font-size: 1.3rem;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  margin-top: 5px;
+}
+
+.close-main-btn {
+  background-color: #ffcc00; /* golden yellow */
+  color: #0b4127; /* matches your dark green theme */
+  border: none;
+  padding: 8px 16px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.close-main-btn:hover {
+  background-color: #f2b400;
+  transform: scale(1.05);
+}
+
+
+.logo-img {
+  width: 190px;
+  height: 93.52px;
+  transition: all 0.3s ease;
+}
+
+/* When scrolled */
+.logo-shrink {
+  width: 120px; /* Shrunk size */
+  height: 60px;
+}
+
+
+/* Main container hidden by default */
+.modern-search-wrapper {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  z-index: 1000;
+  display: none;
+}
+
+/* Styled search bar */
+.modern-search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #0f3b2e; /* Dark green */
+  border: 2px solid #fff;
+  border-radius: 50px;
+  padding: 10px 20px;
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+}
+
+/* Input */
+.modern-search-bar input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: white;
+  padding: 8px 10px;
+}
+
+/* Placeholder color */
+.modern-search-bar input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Search button */
+.modern-search-bar .search-btn img {
+  width: 20px;
+  height: 20px;
+  filter: invert(1);
+  margin-left: 10px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+/* Close button */
+.modern-search-bar .close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.modern-search-bar .close-btn:hover {
+  transform: rotate(90deg);
+}
+
+
+@media (max-width: 600px) {
+  .modern-search-bar {
+    padding: 8px 12px;
+    border-radius: 30px;
+  }
+
+  .modern-search-wrapper {
+    width: 95%;
+    top: 50px;
+  }
+
+  .modern-search-bar input {
+    font-size: 14px;
+  }
+}
+
+
+.menu-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+}
+
+.menu-right button,
+.menu-right a {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.menu-right img {
+  width: 28px;
+  height: 28px;
+  transition: transform 0.2s ease;
+}
+
+.menu-right img:hover {
+  transform: scale(1.2);
+}
+
+.modern-search-wrapper {
+  position: fixed;
+  top: 80px; /* Just below header */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  background-color: #0f3b2e;
+  padding: 20px;
+  display: none;
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.modern-search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #0f3b2e;
+  border: 2px solid white;
+  border-radius: 50px;
+  padding: 10px 20px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.modern-search-bar input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 16px;
+}
+
+.modern-search-bar input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.search-btn img {
+  width: 20px;
+  height: 20px;
+  filter: invert(1); /* makes it white */
+  margin-left: 10px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.close-btn:hover {
+  transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+  .modern-search-wrapper {
+    width: 95%;
+    padding: 16px;
+    top: 70px;
+  }
+
+  .modern-search-bar input {
+    font-size: 14px;
+  }
+
+  .close-btn {
+    font-size: 20px;
+    margin-left: 6px;
+  }
+}
+
+
+
+/* Overlay that matches header width/height */
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px; /* same as header */
+  background-color: #0f3b2e;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+/* Search bar */
+.search-bar {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 80%;
+  max-width: 800px;
+  background-color: #0f3b2e;
+  border: 2px solid white;
+  border-radius: 50px;
+  padding: 10px 20px;
+}
+
+/* Input */
+.search-bar input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: white;
+  padding: 6px 10px;
+}
+
+/* Floating label */
+.search-bar label {
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255,255,255,0.7);
+  font-size: 16px;
+  pointer-events: none;
+  transition: 0.2s ease;
+}
+
+/* Float on focus or if text exists */
+.search-bar input:focus + label,
+.search-bar input:not(:placeholder-shown) + label {
+  top: 8px;
+  font-size: 12px;
+  color: #fff;
+}
+
+/* Search icon */
+.search-icon-btn img {
+  width: 20px;
+  height: 20px;
+  filter: invert(1);
+  margin-left: 10px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+/* Close button inside bar */
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 22px;
+  margin-left: 12px;
+  cursor: pointer;
+}
+
+
+#searchOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background-color: #003322;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modern-search-bar {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  max-width: 800px;
+  border: 2px solid #fff;
+  border-radius: 50px;
+  padding: 10px 20px;
+  background-color: #003322;
+  position: relative;
+}
+
+#searchInput {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: white;
+  font-size: 16px;
+}
+
+.floating-label {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.floating {
+  top: 10px;
+  font-size: 12px;
+}
+
+.search-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+#closeSearchBtn {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  font-size: 24px;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 10000;
+  display: none;
+}
+
+
+#searchContainer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background-color: #003322;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Make sure ✕ is visible */
+#closeSearchBtn {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+  z-index: 10000;
+}
+
+
+#searchContainer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background-color: #003322;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 60px; /* For breathing space on both sides */
+  box-sizing: border-box;
+}
+
+.modern-search-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  border: 2px solid #fff;
+  border-radius: 50px;
+  padding: 10px 20px;
+  background-color: #003322;
+  position: relative;
+}
+
+.floating-label {
+  position: absolute;
+  left: 25px;
+  color: #ccc;
+  pointer-events: none;
+  transition: 0.2s ease;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.floating {
+  top: 8px;
+  font-size: 12px;
+  color: #fff;
+}
+
+#searchContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgb(11, 65, 39);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modern-search-bar {
+  display: flex;
+  align-items: center;
+  width: 85vw;
+  max-width: 750px;
+  border: 2px solid #fff;
+  border-radius: 50px;
+  padding: 10px 20px;
+  background-color: rgb(11, 65, 39);
+  position: relative;
+  overflow: visible;
+}
+
+#searchInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  outline: none;
+  padding-left: 8px;
+}
+
+.floating-label {
+  position: absolute;
+  left: 20px;
+  top: 8px;
+  color: white;
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.search-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  margin-left: 10px;
+  flex-shrink: 0;
+}
+
+#closeSearchBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -35px; /* Default for desktop/tablet */
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10000;
+  transition: right 0.2s ease;
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .modern-search-bar {
+    width: 95%;
+    padding: 8px 16px;
+  }
+
+  #searchInput {
+    font-size: 14px;
+    padding: 8px;
+    padding-right: 36px; /* still leave space for cross */
+  }
+
+  .search-icon,
+  .icon,
+  #closeSearchBtn {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+  }
+
+  #closeSearchBtn {
+    right: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modern-search-bar {
+    width: 70% !important;
+    padding: 6px 12px;
+  }
+
+  #searchInput {
+    font-size: 13px;
+    padding: 6px;
+    padding-right: 32px;
+  }
+
+  .search-icon,
+  .icon,
+  #closeSearchBtn {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+  }
+
+  #closeSearchBtn {
+    right: -30px;
+  }
+}
+
+
+@media (max-width: 600px) {
+  .modern-search-bar {
+    width: 80% !important; /* Reduce width on mobile */
+  }
+
+  #searchInput {
+    font-size: 14px;
+    padding: 6px;
+    padding-right: 36px;
+  }
+
+  #closeSearchBtn {
+    right: -28px;
+    font-size: 20px;
+    top:15px;
+  }
+}
+
+
+.suggestion-box {
+  list-style: none;
+  margin: 4px 0 0 0;
+  padding: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  width: 100%;
+  border: none;
+  border-radius: 15px;
+  background: #fff;
+  position: absolute;
+  top: 65px;
+  left: 0;
+  z-index: 999;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+
+
+/* Each suggestion item */
+.suggestion-box li {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  background-color: #fff;
+  color: #333; /* 👈 Ensure the text is visible */
+}
+
+.suggestion-box li:hover {
+  background-color: #f2f2f2;
+}
+
+
+
+    
+
+
+
+
+  </style>
+</head>
+
+<body>
+  <header>
+    <!-- LEFT MENU ICON -->
+    <div class="menu-left">
+      <button class="menu-button" onclick="toggleMenu()">☰</button>
+    </div>
+  
+    <!-- BRAND LOGO -->
+    <div class="brand">
+      <img src="WhatsApp Image 2025-06-23 at 17.03.47_9950cd83.jpg" alt="Mahaveer Enterprises Logo" class="logo-img" />
+    </div>
+  
+    <!-- RIGHT SIDE ICONS -->
+    <div class="menu-right">
+      <!-- SEARCH ICON BUTTON -->
+      <!-- Search Toggle Icon -->
+<div class="search-toggle-icon" onclick="toggleSearch()">
+  <img src="search (1).png" alt="Search Icon"  class="icon"/>
+</div>
+  
+      <!-- SIGN IN ICON -->
+      <a href="#" class="signin-icon" title="Sign In" onclick="handleUserProfile()">
+        <img src="user.png" alt="User" width="28" height="28"  class="icon"/>
+      </a>
+  
+      <!-- CART ICON -->
+      <button class="cart-icon" onclick="showCart()" title="Cart"  class="icon">  
+        🛒
+        <span id="cart-count" class="cart-badge">0</span>
+      </button>
+    </div>
+  
+    <!-- ONLY ONE SEARCH WRAPPER -->
+   <!-- Search Overlay -->
+<!-- SEARCH OVERLAY -->
+<!-- Search Bar Container -->
+<div id="searchContainer">
+  <div class="modern-search-bar">
+   
+
+    <label class="floating-label" id="searchLabel">Search</label>
+    <input
+      type="text"
+      id="searchInput"
+      oninput="searchProducts()"
+      onfocus="floatLabel()"
+      onblur="unfloatLabel()"
+    />
+    <img src="search (1).png" class="search-icon" onclick="searchProducts()" />
+
+    <!-- ✅ Suggestion box now immediately after search bar -->
+  <ul id="suggestionBox" class="suggestion-box"></ul>
+
+    <!-- CROSS button: placed inside for alignment but styled to float right -->
+    <button id="closeSearchBtn" onclick="toggleSearch()">✕</button>
+  </div>
+</div>
+
+
+  
+    <!-- DROPDOWN MENU -->
+    <div class="menu-dropdown" id="menuDropdown">
+      <div class="menu-close-wrapper">
+        <span class="menu-close-icon" onclick="toggleMenu()">✕</span>
+      </div>
+  
+      <a href="#" onclick="filterProducts('watch')"><span>⌚</span>Watches</a>
+      <a href="#" onclick="filterProducts('bracelet')"><span>🧿</span>Bracelets</a>
+      <a href="#" onclick="filterProducts('trousers')"><span>👖</span>Men Trousers</a>
+      <a href="#" onclick="filterProducts('kids')"><span>🧒</span>Kids Zone</a>
+      <a href="my-orders.html"><span>🛍️</span>My Orders</a>
+
+      <a href="#" onclick="showWishlist()"><span>❤️</span>My Wishlist</a>
+      <a href="#" onclick="trackOrder()"><span>📦</span>Track Order</a>
+      <a href="auth.html" id="signupLink" onclick="localStorage.setItem('auth_view', 'signup')">
+        <span>📝</span>Sign Up
+      </a>
+      <a href="auth.html" id="signinLink" onclick="localStorage.setItem('auth_view', 'signin')">
+        <span>🔐</span>Sign In
+      </a>
+      <button id="logoutBtn" onclick="logoutUser()">Logout</button>
+  
+    <!-- MENU OVERLAY -->
+    <div id="menuOverlay" class="menu-overlay"></div>
+  </header>
+  
+
+<div class="main-content-wrapper">
+
+  <!-- ✅ Wrap both sections inside #homeSections -->
+  <div id="homeSections">
+
+    <!-- First Section with Background Image -->
+    <div class="home-background-section">
+      <div class="home-content">
+        <h1>Welcome to Mahaveer Enterprises</h1>
+        <p>Find the best deals on watches, bracelets, trousers & kids’ toys!</p>
+      </div>
+    </div>
+
+    <!-- Vedic Favorites Section -->
+    <section class="vedic-section">
+      <h2>This Week's Mahaveer's Favorites</h2>
+
+      <div class="vedic-slider">
+        <!-- Card 1 -->
+        <div class="vedic-card">
+          <img src="money.webp" alt="Money Bracelet" />
+          <p>
+            A Money Bracelet is a spiritual accessory made with crystals, Rudraksha,
+            or symbols, believed to attract wealth, abundance, and financial success.
+          </p>
+          <div class="shop-now-text" onclick="filterProducts('bracelet')">Shop Now →</div>
+        </div>
+      
+        <!-- Card 2 -->
+        <div class="vedic-card">
+          <img src="rudraksh.webp" alt="Rudraksha Bracelet" />
+          <p>
+            A Rudraksha bracelet is a sacred bead accessory believed to bring
+            spiritual protection, inner peace, and attract positive energy, health,
+            and prosperity.
+          </p>
+          <div class="shop-now-text" onclick="filterProducts('bracelet')">Shop Now →</div>
+        </div>
+      </div>
+      
+    </section>
+     </div>
+
+  <!-- Watch Section -->
+<div id="watches-section" class="category-section" style="display: none;">
+  <div class="section-header">
+    <h2 style="color: white; font-weight: bold;">Watch Collection's</h2>
+    <button class="close-main-btn" onclick="showHome()">← <span>Back</span></button>
+  </div>
+  <div class="products-container" id="watchList">
+    <!-- All 20 Watch Product Cards go here -->
+    <!-- Example: -->
+    <!-- Watch 1 -->
+<div class="product-card" data-tags="watch">
+  <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+  <img src="Watch_Images/Minimalist_Dress_Watch.jpeg" alt="Minimalist Dress Watch" />
+  <h3>Minimalist Dress Watch</h3>
+  <p>Ultra-thin quartz watch with brown leather strap for formal wear.</p>
+  <p><strong>₹3,899</strong></p>
+  <button onclick="addToCart('Minimalist Dress Watch')">+ Add to Cart</button>
+</div>
+
+<!-- Watch 2 -->
+<div class="product-card" data-tags="watch">
+  <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+  <img src="Watch_Images/Black_Steel_Chrono.webp" alt="Black Steel Chrono" />
+  <h3>Black Steel Chrono</h3>
+  <p>Bold chronograph with black stainless steel strap and matte dial.</p>
+  <p><strong>₹4,499</strong></p>
+  <button onclick="addToCart('Black Steel Chrono')">+ Add to Cart</button>
+</div>
+
+<!-- Watch 3 -->
+<div class="product-card" data-tags="watch">
+  <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+  <img src="Watch_Images/Casual_Blue_Dial_Watch.webp" alt="Casual Blue Dial Watch" />
+  <h3>Casual Blue Dial Watch</h3>
+  <p>Trendy blue dial watch perfect for everyday styling.</p>
+  <p><strong>₹2,999</strong></p>
+  <button onclick="addToCart('Casual Blue Dial Watch')">+ Add to Cart</button>
+</div>
+
+<!-- Watch 4 -->
+<div class="product-card" data-tags="watch">
+  <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+  <img src="Watch_Images/Rose_Gold_Elegance.webp" alt="Rose Gold Elegance" />
+  <h3>Rose Gold Elegance</h3>
+  <p>Elegant women's watch with rose gold mesh strap and white dial.</p>
+  <p><strong>₹5,299</strong></p>
+  <button onclick="addToCart('Rose Gold Elegance')">+ Add to Cart</button>
+</div>
+
+<!-- Watch 5 -->
+<div class="product-card" data-tags="watch">
+  <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+  <img src="Watch_Images/Analog_Sports_Watch.jpg" alt="Analog Sports Watch" />
+  <h3>Analog Sports Watch</h3>
+  <p>Shock-resistant analog watch with silicone band and water resistance.</p>
+  <p><strong>₹3,499</strong></p>
+  <button onclick="addToCart('Analog Sports Watch')">+ Add to Cart</button>
+</div>
+
+<!-- Watch 6 -->
+<div class="product-card" data-tags="watch">
+  <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+  <img src="Watch_Images/Classic_Roman_Dial.jpg" alt="Classic Roman Dial" />
+  <h3>Classic Roman Dial</h3>
+  <p>Traditional analog watch featuring Roman numerals and black strap.</p>
+  <p><strong>₹2,199</strong></p>
+  <button onclick="addToCart('Classic Roman Dial')">+ Add to Cart</button>
+</div>
+
+<!-- Watch 7 -->
+<div class="product-card" data-tags="watch">
+  <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+  <img src="Watch_Images/Smartwatch_Touchscreen.webp" alt="Smartwatch Touchscreen" />
+  <h3>Smartwatch Touchscreen</h3>
+  <p>Feature-rich smartwatch with heart rate and fitness tracking.</p>
+  <p><strong>₹6,999</strong></p>
+  <button onclick="addToCart('Smartwatch Touchscreen')">+ Add to Cart</button>
+</div>
+
+<!-- Watch 8 -->
+<div class="product-card" data-tags="watch">
+  <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+  <img src="Watch_Images/Vintage_Brown_Leather.jpg" alt="Vintage Brown Leather" />
+  <h3>Vintage Brown Leather</h3>
+  <p>Retro-inspired analog watch with premium brown leather strap.</p>
+  <p><strong>₹4,099</strong></p>
+  <button onclick="addToCart('Vintage Brown Leather')">+ Add to Cart</button>
+</div>
+
+<!-- Watch 9 -->
+<div class="product-card" data-tags="watch">
+  <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+  <img src="Watch_Images/Titan_Slimline.webp" alt="Titan Slimline" />
+  <h3>Titan Slimline</h3>
+  <p>Lightweight and elegant slimline watch for business attire.</p>
+  <p><strong>₹5,899</strong></p>
+  <button onclick="addToCart('Titan Slimline')">+ Add to Cart</button>
+</div>
+
+<!-- Watch 10 -->
+<div class="product-card" data-tags="watch">
+  <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+  <img src="Watch_Images/Blue Sports Dial.webp" alt="Blue Sports Dial" />
+  <h3>Blue Sports Dial</h3>
+  <p>Sporty chronograph with blue dial and luminous markers.</p>
+  <p><strong>₹3,799</strong></p>
+  <button onclick="addToCart('Blue Sports Dial')">+ Add to Cart</button>
+</div>
+
+<!-- Watch 11 -->
+<div class="product-card" data-tags="watch">
+  <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+  <img src="Watch_Images/Mesh_Strap_Smartwatch.webp" alt="Mesh Strap Smartwatch" />
+  <h3>Mesh Strap Smartwatch</h3>
+  <p>Elegant smartwatch with stainless steel mesh band and OLED display.</p>
+  <p><strong>₹5,499</strong></p>
+  <button onclick="addToCart('Mesh Strap Smartwatch')">+ Add to Cart</button>
+</div>
+
+<!-- Watch 12 -->
+<div class="product-card" data-tags="watch">
+  <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+  <img src="Watch_Images/Luxe_Black_Dial.webp" alt="Luxe Black Dial" />
+  <h3>Luxe Black Dial</h3>
+  <p>Premium luxury watch with matte black dial and leather strap.</p>
+  <p><strong>₹6,299</strong></p>
+  <button onclick="addToCart('Luxe Black Dial')">+ Add to Cart</button>
+</div>
+
+<!-- Watch 13 -->
+<div class="product-card" data-tags="watch">
+  <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+  <img src="Watch_Images/watch_2.jpeg" alt="Classic Dual Time" />
+  <h3>Classic Dual Time</h3>
+  <p>Dual time zone functionality with vintage silver bezel.</p>
+  <p><strong>₹4,749</strong></p>
+  <button onclick="addToCart('Classic Dual Time')">+ Add to Cart</button>
+</div>
+
+<!-- Watch 14 -->
+<div class="product-card" data-tags="watch">
+  <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+  <img src="Watch_Images/watch_1_.jpg" alt="Titan Rose Chronograph" />
+  <h3>Titan Rose Chronograph</h3>
+  <p>Elegant chronograph with rose gold accents and white dial.</p>
+  <p><strong>₹7,599</strong></p>
+  <button onclick="addToCart('Titan Rose Chronograph')">+ Add to Cart</button>
+</div>
+
+<!-- Watch 15 -->
+<div class="product-card" data-tags="watch">
+  <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+  <img src="Watch_Images/All_Black_Digital_Watch.webp" alt="All Black Digital Watch" />
+  <h3>All Black Digital Watch</h3>
+  <p>Durable digital watch with backlight and stopwatch features.</p>
+  <p><strong>₹2,299</strong></p>
+  <button onclick="addToCart('All Black Digital Watch')">+ Add to Cart</button>
+</div>
+
+<!-- Watch 16 -->
+<div class="product-card" data-tags="watch">
+  <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+  <img src="Watch_Images/Formal_Leather_Strap.webp" alt="Formal Leather Strap" />
+  <h3>Formal Leather Strap</h3>
+  <p>Business-class watch with date display and black leather finish.</p>
+  <p><strong>₹3,299</strong></p>
+  <button onclick="addToCart('Formal Leather Strap')">+ Add to Cart</button>
+</div>
+
+<!-- Watch 17 -->
+<div class="product-card" data-tags="watch">
+  <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+  <img src="Watch_Images/Gold_Link_Watch.webp" alt="Gold Link Watch" />
+  <h3>Gold Link Watch</h3>
+  <p>Luxurious gold-tone bracelet watch for formal evenings.</p>
+  <p><strong>₹8,199</strong></p>
+  <button onclick="addToCart('Gold Link Watch')">+ Add to Cart</button>
+</div>
+
+<!-- Watch 18 -->
+<div class="product-card" data-tags="watch">
+  <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+  <img src="Watch_Images/Digital_Outdoor_Watch.jpg" alt="Digital Outdoor Watch" />
+  <h3>Digital Outdoor Watch</h3>
+  <p>Rugged watch with digital compass, altimeter & barometer.</p>
+  <p><strong>₹4,799</strong></p>
+  <button onclick="addToCart('Digital Outdoor Watch')">+ Add to Cart</button>
+</div>
+
+<!-- Watch 19 -->
+<div class="product-card" data-tags="watch">
+  <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+  <img src="Watch_Images/White_Dial_Leather_Watch.jpg" alt="White Dial Leather Watch" />
+  <h3>White Dial Leather Watch</h3>
+  <p>Minimalist white dial with brown genuine leather strap.</p>
+  <p><strong>₹3,199</strong></p>
+  <button onclick="addToCart('White Dial Leather Watch')">+ Add to Cart</button>
+</div>
+
+<!-- Watch 20 -->
+<div class="product-card" data-tags="watch">
+  <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+  <img src="Watch_Images/Dual_Tone__Steel_Watch.webp" alt="Dual Tone Steel Watch" />
+  <h3>Dual Tone Steel Watch</h3>
+  <p>Elegant two-tone stainless steel watch with scratch-proof glass.</p>
+  <p><strong>₹5,899</strong></p>
+  <button onclick="addToCart('Dual Tone Steel Watch')">+ Add to Cart</button>
+</div>
+
+  </div>
+</div>
+
+<!-- Bracelet Section -->
+<div id="bracelet-section" class="category-section" style="display: none;">
+  <div class="section-header">
+    <h2 style="color: white; font-weight: bold;">Bracelets</h2>
+    <button class="close-main-btn" onclick="showHome()">← <span>Back</span></button>
+  </div>
+  <div class="products-container" id="braceletList">
+    <div class="product-card" data-tags="bracelet">
+      <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+      <img src="Bracelets_Images/braclet_1.jpeg" alt="bracelet" />
+      <h3>Silver Bracelet</h3>
+      <p>Premium sterling silver bracelet for women.</p>
+      <p><strong>₹2,199</strong></p>
+      <button onclick="addToCart('Silver Bracelet')">+ Add to Cart</button>
+    </div>
+    <!-- Add more bracelet cards -->
+  </div>
+</div>
+
+<!-- Trousers Section -->
+<div id="trousers-section" class="category-section" style="display: none;">
+  <div class="section-header">
+    <h2 style="color: white; font-weight: bold;">Men's Trousers</h2>
+    <button class="close-main-btn" onclick="showHome()">← <span>Back</span></button>
+  </div>
+  <div class="products-container" id="trousersList">
+    <div class="product-card" data-tags="trousers">
+      <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+      <img src="Trouser's_Images/trouser_1.jpeg" alt="trousers" />
+      <h3>Men's Trousers</h3>
+      <p>Comfortable and stylish trousers for men.</p>
+      <p><strong>₹1,499</strong></p>
+      <button onclick="addToCart('Men\'s Trousers')">+ Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+<!-- Kids Section -->
+<div id="kids-section" class="category-section" style="display: none;">
+  <div class="section-header">
+    <h2 style="color: white; font-weight: bold;">Kids Zone</h2>
+    <button class="close-main-btn" onclick="showHome()">← <span>Back</span></button>
+  </div>
+  <div class="products-container" id="kidsList">
+    <div class="product-card" data-tags="kids">
+      <button class="heart-btn" onclick="addToWishlist(this)">♡</button>
+      <img src="Kids_Zone_Images/teddy_1.jpeg" alt="kids" />
+      <h3>Kids Toy Set</h3>
+      <p>Fun and safe toy set for kids aged 3-8.</p>
+      <p><strong>₹889</strong></p>
+      <button onclick="addToCart('Kids Toy Set')">+ Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  <script>
+    let isMenuOpen = false;
+  
+    function toggleMenu() {
+      const dropdown = document.getElementById("menuDropdown");
+      isMenuOpen = !isMenuOpen;
+      dropdown.style.display = isMenuOpen ? "flex" : "none";
+    }
+  
+    document.addEventListener('click', function (e) {
+      const menu = document.getElementById("menuDropdown");
+      const menuBtn = document.querySelector('.menu-button');
+      if (isMenuOpen && !menu.contains(e.target) && !menuBtn.contains(e.target)) {
+        menu.style.display = "none";
+        isMenuOpen = false;
+      }
+    });
+  
+    let isSearchOpen = false;
+
+    function toggleSearch() {
+      const box = document.getElementById("searchContainer");
+      const input = document.getElementById("searchInput");
+      const closeBtn = document.getElementById("closeSearchBtn");
+    
+      const isVisible = window.getComputedStyle(box).display === "flex";
+    
+      if (isVisible) {
+        box.style.display = "none";
+        if (closeBtn) closeBtn.style.display = "none";
+        input.value = "";
+        unfloatLabel();
+    
+        document.querySelectorAll('.product-card').forEach(p => p.style.display = 'none');
+        const home = document.getElementById('homeSections');
+        if (home) home.style.display = 'block';
+    
+        ['watches-section', 'bracelet-section', 'trousers-section', 'kids-section'].forEach(id => {
+          const section = document.getElementById(id);
+          if (section) section.style.display = 'none';
+        });
+    
+        const wishlist = document.getElementById('wishlist-section');
+        if (wishlist) wishlist.style.display = 'none';
+    
+        const suggestionBox = document.getElementById('suggestionBox');
+        if (suggestionBox) suggestionBox.style.display = 'none';
+    
+        document.removeEventListener('click', handleOutsideSearchClick);
+      } else {
+        box.style.display = "flex";
+        if (closeBtn) closeBtn.style.display = "inline-block";
+        input.focus();
+    
+        setTimeout(() => {
+          document.addEventListener('click', handleOutsideSearchClick);
+        }, 0);
+      }
+    }
+    
+    
+    function handleOutsideSearchClick(e) {
+      const container = document.getElementById("searchContainer");
+      const input = document.getElementById("searchInput");
+      const toggleButton = document.querySelector(".search-icon");
+    
+      if (!container.contains(e.target) && !toggleButton.contains(e.target)) {
+        toggleSearch();
+      }
+    }
+    
+    function floatLabel() {
+      const label = document.getElementById('searchLabel');
+      label.classList.add('floating');
+    }
+    
+    function unfloatLabel() {
+      const input = document.getElementById('searchInput');
+      const label = document.getElementById('searchLabel');
+      if (input.value.trim() === "") {
+        label.classList.remove('floating');
+      }
+    }
+    
+        
+
+  
+    function searchProducts() {
+      const input = document.getElementById('searchInput').value.trim().toLowerCase();
+      const suggestionBox = document.getElementById('suggestionBox');
+    
+      // All product names
+      const productNames = Array.from(document.querySelectorAll('.product-card h3')).map(el =>
+        el.textContent.trim()
+      );
+    
+      // Filter suggestions
+      const suggestions = productNames.filter(name =>
+        name.toLowerCase().includes(input)
+      );
+    
+      // Clear old suggestions
+      suggestionBox.innerHTML = '';
+    
+      if (input === '') {
+        suggestionBox.style.display = 'none';
+        showHome();
+        return;
+      }
+    
+      if (suggestions.length === 0) {
+        suggestionBox.style.display = 'none';
+        return;
+      }
+    
+      // Show suggestions
+      suggestions.forEach(name => {
+        const li = document.createElement('li');
+        li.textContent = name;
+        li.onclick = () => {
+          document.getElementById('searchInput').value = name;
+          suggestionBox.style.display = 'none';
+          floatLabel();
+          triggerSearchByName(name); // trigger search using selected name
+        };
+        suggestionBox.appendChild(li);
+      });
+    
+      suggestionBox.style.display = 'block';
+    }
+    
+    
+
+    function triggerSearchByName(productName) {
+      const lowerName = productName.toLowerCase();
+    
+      const sections = ['watches-section', 'bracelet-section', 'trousers-section', 'kids-section'];
+      let anyMatch = false;
+    
+      // Hide all
+      sections.forEach(id => {
+        document.getElementById(id).style.display = 'none';
+        const cards = document.querySelectorAll(`#${id} .product-card`);
+        cards.forEach(card => card.style.display = 'none');
+      });
+    
+      document.getElementById('homeSections').style.display = 'none';
+    
+      // Show matching
+      sections.forEach(id => {
+        const cards = document.querySelectorAll(`#${id} .product-card`);
+        let sectionMatch = false;
+    
+        cards.forEach(card => {
+          const name = card.querySelector('h3')?.textContent.toLowerCase();
+          if (name.includes(lowerName)) {
+            card.style.display = 'flex';
+            sectionMatch = true;
+            anyMatch = true;
+          }
+        });
+    
+        if (sectionMatch) document.getElementById(id).style.display = 'block';
+      });
+    
+      if (!anyMatch) {
+        alert("No products found!");
+        document.getElementById('homeSections').style.display = 'block';
+      }
+    }
+    
+    function filterProducts(tag) {
+      const sectionMap = {
+        watch: 'watches-section',
+        bracelet: 'bracelet-section',
+        trousers: 'trousers-section',
+        kids: 'kids-section'
+      };
+  
+      const sectionId = sectionMap[tag];
+      if (!sectionId) return;
+  
+      // Close the menu dropdown (if open)
+      const dropdown = document.getElementById('menuDropdown');
+      dropdown.style.display = 'none';
+      isMenuOpen = false;
+  
+      // Hide all category sections
+      document.querySelectorAll('.category-section').forEach(s => {
+        s.style.display = 'none';
+      });
+  
+      // Hide other main sections
+      document.getElementById('homeSections').style.display = 'none';
+      const wishlist = document.getElementById('wishlist-section');
+      if (wishlist) wishlist.style.display = 'none';
+      document.getElementById('searchContainer').style.display = 'none';
+  
+      // Show the selected section
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.style.display = 'block';
+  
+        // Show matching products inside that section only
+        section.querySelectorAll('.product-card').forEach(card => {
+          const tags = card.getAttribute('data-tags') || '';
+          card.style.display = tags.includes(tag) ? 'flex' : 'none';
+        });
+      }
+    }
+  
+    function addToCart(productName) {
+      if (!localStorage.getItem('user_email')) {
+        alert("Please sign in to add items to cart.");
+        window.location.href = "auth.html";
+        return;
+      }
+    
+      const allCards = document.querySelectorAll('.product-card');
+      let price = 0;
+      let image = "";
+    
+      allCards.forEach(card => {
+        const name = card.querySelector('h3')?.textContent.trim();
+        if (name === productName) {
+          const priceText = card.querySelector('strong')?.textContent.replace(/[₹,]/g, '') || '0';
+          price = parseInt(priceText, 10);
+          image = card.querySelector('img')?.src || "";
+        }
+      });
+    
+      if (price === 0 || !image) {
+        alert(`❌ Error: Couldn't find price or image for ${productName}`);
+        return;
+      }
+    
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const index = cart.findIndex(item => item.name === productName);
+    
+      if (index === -1) {
+        cart.push({ name: productName, price, image, quantity: 1 });
+      } else {
+        cart[index].quantity += 1; // 🔁 increment quantity
+      }
+    
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      triggerCartBounce();
+      alert(`${productName} added to cart!`);
+    }
+    
+
+    
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      let totalQuantity = 0;
+    
+      cart.forEach(item => {
+        totalQuantity += item.quantity || 1;
+      });
+    
+      // Update cart count on badge
+      const badgeById = document.querySelectorAll('#cart-count');
+      badgeById.forEach(badge => {
+        badge.textContent = totalQuantity;
+        badge.style.display = totalQuantity > 0 ? 'inline-block' : 'none';
+      });
+    
+      const floatingCount = document.querySelectorAll('.cart-count');
+      floatingCount.forEach(el => {
+        el.textContent = totalQuantity;
+        el.style.display = totalQuantity > 0 ? 'inline-block' : 'none';
+      });
+    }
+    
+  
+    
+    
+  
+    function showCart() {
+      window.location.href = 'cart.html';
+    }
+  
+    function logoutUser() {
+      localStorage.removeItem('user_email');
+      localStorage.removeItem('user_pass');
+      localStorage.removeItem('user_name');
+      alert('Logged out successfully!');
+      window.location.href = 'auth.html';
+    }
+
+    function updateMenuOptions() {
+      const isLoggedIn = localStorage.getItem('user_email') !== null;
+      const signUpLink = document.querySelector("a[onclick*='auth_view',*'signup']");
+      const signInLink = document.querySelector("a[onclick*='auth_view',*'signin']");
+      const logoutBtn = document.querySelector(".menu-dropdown button[onclick='logoutUser()']");
+    
+      if (signUpLink) signUpLink.style.display = isLoggedIn ? 'none' : 'block';
+      if (signInLink) signInLink.style.display = isLoggedIn ? 'none' : 'block';
+      if (logoutBtn) logoutBtn.style.display = isLoggedIn ? 'block' : 'none';
+    }
+    
+    // Call this once page loads
+    window.onload = function () {
+      updateMenuOptions();
+    
+      // Show user info if logged in
+      displayUserCard();
+    
+      // ✅ Escape key closes the search box and resets results
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) {
+        searchInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') toggleSearch();
+        });
+      }
+    
+      // Additional setup
+      updateCartCount();
+      updateWishlistUI();
+      syncHeartIcons();
+    };
+    
+  
+
+    function toggleProfileCard() {
+      const card = document.getElementById('userProfileCard');
+      card.classList.toggle('hidden');
+    }
+    
+    function displayUserCard() {
+      const email = localStorage.getItem('user_email');
+      const name = localStorage.getItem('user_name');
+    
+      if (email && name) {
+        document.getElementById('profileName').textContent = name;
+        document.getElementById('profileEmail').textContent = email;
+        document.getElementById('userProfileCard').classList.add('hidden'); // Initially hidden
+      }
+    }
+
+    
+
+    function showHome() {
+      // Hide all category sections (like bracelet, watches, etc.)
+      document.querySelectorAll('.category-section').forEach(section => {
+        section.style.display = 'none';
+      });
+    
+      // Show home sections
+      document.getElementById('homeSections').style.display = 'block';
+    
+      // Optionally hide other sections like wishlist and search
+      const wishlist = document.getElementById('wishlist-section');
+      if (wishlist) wishlist.style.display = 'none';
+    
+      const search = document.getElementById('searchContainer');
+      if (search) search.style.display = 'none';
+
+    
+      // Hide all product cards in case they were left visible from search
+      document.querySelectorAll('.product-card').forEach(p => p.style.display = 'none');
+    }
+    
+    function addToWishlist(button) {
+      if (!localStorage.getItem('user_email')) {
+        alert("Please sign in to add items to wishlist.");
+        setTimeout(showHome, 1500);
+        return;
+      }
+  
+      const card = button.closest('.product-card');
+      const name = card.querySelector('h3')?.textContent.trim();
+      const img = card.querySelector('img')?.src;
+      const price = card.querySelector('strong')?.textContent;
+  
+      let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      const index = wishlist.findIndex(item => item.name === name);
+  
+      if (index === -1) {
+        wishlist.push({ name, img, price });
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        button.textContent = '❤️';
+        alert("This item has been added to your wishlist");
+      } else {
+        wishlist.splice(index, 1);
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        button.textContent = '♡';
+        alert("This item has been removed from your wishlist");
+      }
+  
+      updateWishlistUI();
+    }
+  
+    function updateWishlistUI() {
+      const container = document.getElementById('wishlistItems');
+      if (!container) return;
+  
+      const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      container.innerHTML = '';
+  
+      if (wishlist.length === 0) {
+        container.innerHTML = `<p style="color: white; font-size: 1.2rem; text-align: center; margin-top: 2rem;">♡ No items in your wishlist.</p>`;
+
+      } else {
+        wishlist.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'product-card';
+          card.innerHTML = `
+            <button class="heart-btn" onclick="removeFromWishlist('${item.name}')">❤️</button>
+            <img src="${item.img || item.image}" alt="${item.name}" />
+
+            <h3>${item.name}</h3>
+            <p><strong>${item.price}</strong></p>
+            <button onclick="addToCart('${item.name}')">+ Add to Cart</button>
+          `;
+          container.appendChild(card);
+        });
+      }
+  
+      syncHeartIcons();
+    }
+  
+    function removeFromWishlist(name) {
+      let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      wishlist = wishlist.filter(item => item.name !== name);
+      localStorage.setItem('wishlist', JSON.stringify(wishlist));
+      alert("Item removed from wishlist");
+      updateWishlistUI();
+    }
+  
+    function showWishlist() {
+      // Hide all sections first
+      document.querySelectorAll('.category-section').forEach(section => {
+        section.style.display = 'none';
+      });
+    
+      document.getElementById('homeSections').style.display = 'none';
+      document.getElementById('watches-section').style.display = 'none';
+      document.getElementById('searchContainer').style.display = 'none';
+    
+      // Hide menu
+      document.getElementById('menuDropdown').style.display = 'none';
+      isMenuOpen = false;
+    
+      // Show wishlist
+      const wishlist = document.getElementById('wishlist-section');
+      if (wishlist) {
+        wishlist.style.display = 'block';
+        updateWishlistUI();
+      }
+    }
+    
+  
+    function syncHeartIcons() {
+      const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      document.querySelectorAll('.product-card').forEach(card => {
+        const name = card.querySelector('h3')?.textContent.trim();
+        const heart = card.querySelector('.heart-btn');
+        if (!heart) return;
+        const exists = wishlist.some(item => item.name === name);
+        heart.textContent = exists ? '❤️' : '♡';
+      });
+    }
+  
+    window.onload = function () {
+      updateMenuOptions();
+      updateWishlistUI();
+      updateMenuVisibility();
+      displayUserCard();
+      syncHeartIcons();
+      updateCartCount();
+    
+      // ✅ Add this Escape key listener here
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) {
+        searchInput.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') {
+            toggleSearch();
+          }
+        });
+      }
+    };
+    
+
+
+
+    function showCategory(sectionId) {
+      // Hide all category sections
+      document.querySelectorAll('.category-section').forEach(section => {
+        section.style.display = 'none';
+      });
+    
+      // Hide other sections
+      document.getElementById('homeSections').style.display = 'none';
+      document.getElementById('wishlist-section').style.display = 'none';
+      document.getElementById('searchContainer').style.display = 'none';
+    
+      // Show the requested category
+      const target = document.getElementById(sectionId);
+      if (target) {
+        target.style.display = 'block';
+      }
+    }
+    
+
+    function toggleMenu() {
+      const dropdown = document.getElementById('menuDropdown');
+      dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+    }
+    
+
+    const menu = document.getElementById('menuDropdown');
+  const overlay = document.getElementById('menuOverlay');
+
+  function openMenu() {
+    menu.style.display = 'flex';
+    overlay.style.display = 'block';
+  }
+
+  function closeMenu() {
+    menu.style.display = 'none';
+    overlay.style.display = 'none';
+  }
+
+  // ✅ Click outside to close
+  document.addEventListener('click', function(event) {
+    const isClickInside = menu.contains(event.target);
+    const isMenuButton = event.target.closest('.menu-button'); // allow opening
+
+    if (!isClickInside && !isMenuButton && menu.style.display === 'flex') {
+      closeMenu();
+    }
+  });
+
+
+  window.addEventListener('DOMContentLoaded', updateCartCount);
+
+
+  function trackOrder() {
+    window.location.href = "track-order.html";
+  }
+  
+
+    function clearWishlist() {
+      if (confirm("Are you sure you want to clear your entire wishlist?")) {
+        localStorage.removeItem('wishlist');
+        updateWishlistUI();
+        alert("✅ Your wishlist has been cleared.");
+      }
+    }
+
+    function updateMenuVisibility() {
+      const isLoggedIn = localStorage.getItem('user_email') !== null;
+    
+      const signUp = document.getElementById('signupLink');
+      const signIn = document.getElementById('signinLink');
+      const logout = document.getElementById('logoutBtn');
+    
+      if (signUp) signUp.style.display = isLoggedIn ? 'none' : 'block';
+      if (signIn) signIn.style.display = isLoggedIn ? 'none' : 'block';
+      if (logout) logout.style.display = isLoggedIn ? 'block' : 'none';
+    }
+
+    
+    window.onload = function () {
+      updateMenuVisibility();
+    };
+    
+
+    function handleUserProfile() {
+      const isLoggedIn = localStorage.getItem('user_email');
+      if (isLoggedIn) {
+        window.location.href = 'profile.html'; // ✅ your new profile page
+      } else {
+        localStorage.setItem('auth_view', 'signin');
+        window.location.href = 'auth.html';
+      }
+    }
+    
+
+    
+    fetch("footer.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("footer-placeholder").innerHTML = data;
+    });
+
+    function openPolicy() {
+      const modal = document.getElementById("policyModal");
+      if (modal) modal.style.display = "block";
+    }
+  
+    function acceptPolicy() {
+      const checkbox = document.getElementById("policyCheck");
+      if (!checkbox.checked) {
+        alert("Please agree to the privacy policy before continuing.");
+        return;
+      }
+      document.getElementById("policyModal").style.display = "none";
+      window.location.href = "index.html";
+    }
+
+
+    function triggerCartBounce() {
+      const cart = document.querySelector('.cart');
+      if (!cart) return;
+    
+      // Remove the class if it's already applied
+      cart.classList.remove('bounce');
+    
+      // Force reflow: this is the key to restart animation
+      void cart.offsetWidth;
+    
+      // Re-add the bounce class to trigger animation
+      cart.classList.add('bounce');
+    
+      // Remove the class after animation to prepare for next trigger
+      setTimeout(() => {
+        cart.classList.remove('bounce');
+      }, 600); // Match animation duration
+    }
+    
+    
+    
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        const searchBox = document.getElementById("searchContainer");
+        const isVisible = window.getComputedStyle(searchBox).display === "block";
+  
+        if (isVisible) {
+          toggleSearch();
+        }
+      }
+    });
+
+
+    window.addEventListener("scroll", function () {
+      const logo = document.querySelector(".logo-img");
+      if (window.scrollY > 50) {
+        logo.classList.add("logo-shrink");
+      } else {
+        logo.classList.remove("logo-shrink");
+      }
+    });
+
+
+    
+  </script>
+
+
+  <!-- Wishlist Section -->
+<div id="wishlist-section" class="category-section" style="display: none;">
+  <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <h2 style="color: white; font-weight: bold; margin: 0;">♡ Wishlist</h2>
+    <div style="display: flex; align-items: center; gap: 20px;">
+      <img src="clear.png"
+           onclick="clearWishlist()"
+           style="width: 30px; cursor: pointer;"
+           title="Clear Wishlist" />
+      <button class="close-main-btn" onclick="showHome()">← <span>Back</span></button>
+    </div>
+  </div>
+
+  <div class="products-container" id="wishlistItems" style="margin-top: 20px;"></div>
+</div>
+  
+<!--Cart below-->
+<div class="cart" onclick="showCart()">
+  <div class="cart-icon-wrapper">
+    🛒
+    <span class="cart-count">1</span>
+  </div>
+</div>
+
+</div>
+
+
+<!--footer-->
+  <div id="footer-placeholder"></div>
+
+</body>
+
+
+
+</html>

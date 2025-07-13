@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment Gateway</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f8;
+    }
+    
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: #0b4127;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.4rem;
+      flex-wrap: wrap;
+      text-align: center;
+      z-index: 1000;
+    }
+    
+    
+    /* Container */
+    .container {
+      width: 90%;
+      max-width: 600px;
+      margin: 80px auto 2rem; 
+      background: white;
+      padding: 2rem;
+      
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      word-break: break-word;
+      
+    }
+    
+    
+    /* Section Title */
+    .section-title {
+      font-size: 1.2rem;
+      margin-bottom: 1.2rem;
+      font-weight: 600;
+      color: #0b4127;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 6px;
+    }
+    
+    /* Cards */
+    .card {
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+      width: 100%;
+      overflow-wrap: break-word;
+    }
+    
+    /* Payment Image */
+    .upi-image {
+      display: block;
+      margin: 10px auto;
+      max-width: 180px;
+      width: 100%;
+      height: auto;
+    }
+    
+    #upiId {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: 600;
+      color: #444;
+    }
+    
+    /* Buttons */
+    .btn, .add-address-btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      text-align: center;
+    }
+    
+    .btn {
+      background-color: #218838;
+      color: white;
+      margin-top: 1rem;
+    }
+    
+    .btn:hover {
+      background-color: #186c2f;
+    }
+    
+    .add-address-btn {
+      background-color: #007bff;
+      color: white;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+    
+    .address-options label {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      flex-wrap: wrap;
+    }
+    
+    .address-options span {
+      white-space: pre-wrap;
+      font-size: 0.95rem;
+      color: #333;
+      flex: 1;
+    }
+    
+    /* Popup */
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 24px;
+      max-width: 90%;
+      width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      display: none;
+    }
+    
+    .popup input, .popup textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    
+    .celebration {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 1rem;
+      z-index: 9999;
+      overflow: hidden;
+      font-size: 2rem; /* 👈 Add this line */
+  font-weight: bold; 
+    }
+    
+    
+    .success-text {
+      font-size: clamp(1.2rem, 4vw, 2rem); /* Responsive size */
+      font-weight: bold;
+      color: green;
+      white-space: nowrap;         /* ✅ Keep it on one line */
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 95vw;
+    }
+    
+    
+    
+    @media screen and (max-width: 480px) {
+      .success-text {
+        font-size: 1.4rem;
+        padding: 0 1rem;
+      }
+    }
+    
+    
+    /* Emojis */
+    .emoji {
+      position: fixed;
+      top: -2rem;
+      font-size: 2rem;
+      z-index: 99999;
+      pointer-events: none;
+      animation: fall 3s linear forwards; /* ✅ Add forwards */
+    }
+    
+    
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+    
+    @-webkit-keyframes fall {
+      0% {
+        -webkit-transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        -webkit-transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+    
+    .emoji {
+      font-size: 2rem;
+      z-index: 9999;
+      pointer-events: none;
+      animation: fall 3s linear forwards;
+      -webkit-animation: fall 3s linear forwards;
+      will-change: transform;
+    }
+    
+    
+    /* Responsive Fixes */
+    @media screen and (max-width: 480px) {
+      header {
+        font-size: 1.1rem;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    
+      .container {
+        padding: 1rem;
+      }
+    
+      .popup {
+        width: 95%;
+        padding: 16px;
+      }
+    
+      .btn {
+        font-size: 0.95rem;
+      }
+    
+      .upi-image {
+        max-width: 100%;
+      }
+    }
+
+ 
+    
+    
+  </style>
+  
+  
+  
+</head>
+<body>
+  <header>
+    💳 Payment Gateway
+    <span id="countdown">⏳ 05:00</span>
+  </header>
+
+  <div class="container">
+    <div class="section-title">Select Payment Method</div>
+
+<!-- ✅ Amount to Pay -->
+<div class="card" style="margin-top: 10px;">
+  <div style="font-size: 1rem; font-weight: 600; color: #333;">
+    Amount to be Paid: 
+    <span id="payAmount" style="font-size: 1.5rem; color: #0b4127; font-weight: bold; margin-left: 6px;">
+      ₹0
+    </span>
+  </div>
+</div>
+
+    <div class="card">
+      <label><input type="radio" name="payment" value="upi" checked> UPI (Scanner)</label>
+      <div id="upiSection">
+        <img src="QR.png" alt="Scan QR" class="upi-image">
+        <div id="upiId">9739170288@ybl</div>
+      </div>
+      <label><input type="radio" name="payment" value="cod"> Cash on Delivery (COD)</label>
+    </div>
+
+    <div class="section-title">
+      Delivery Address
+      <button class="add-address-btn" onclick="togglePopup()">+ Add New Address</button>
+    </div>
+
+    <div class="card">
+      <div class="address-options" id="addressOptions">
+        <label><input type="radio" name="address" value="checkoutAddress" checked>
+          <span id="checkoutAddress">No address found</span>
+        </label>
+      </div>
+      <div class="checkbox-section" id="cbSection">
+        <label><input type="checkbox" id="sameDelivery"> Deliver to this address</label>
+      </div>
+    </div>
+
+
+    
+
+    <button class="btn" onclick="placeOrder()">Place the Order</button>
+  </div>
+
+  <div class="popup" id="popup">
+    <span class="close-popup" onclick="closePopup()">✖</span>
+    <h3>Add New Address</h3>
+    <input type="text" id="newName" placeholder="Full Name">
+    <input type="text" id="newContact" placeholder="Mobile Number">
+    <textarea id="newAddress" placeholder="Full Address" rows="4"></textarea>
+    <button class="btn" onclick="saveNewAddress()">Save Details</button>
+  </div>
+
+  <!-- Success Celebration Screen -->
+  <div id="successScreen" class="celebration" style="display: none;">
+    <h1 class="success-text">🎉 Order Placed Successfully! 🎉</h1>
+  </div>
+  
+
+
+
+<!--failed payment-->
+
+<!-- Failure Screen -->
+<div id="failureScreen" class="celebration" style="display: none; color: red;">
+  ❌ Payment Failed
+</div>
+
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+  emailjs.init("yWquru6Fki6Lvx0je"); // ✅ YOUR_USER_ID
+</script>
+
+
+
+  <script>
+
+
+    // Detect if user refreshes the page (refresh = payment failed)
+if (performance.navigation.type === 1) {
+  document.body.innerHTML = '';
+  const failDiv = document.createElement('div');
+  failDiv.className = 'celebration';
+  failDiv.style.color = 'red';
+  failDiv.innerText = '❌ Payment Failed';
+  document.body.appendChild(failDiv);
+  setTimeout(() => {
+    window.location.href = "checkout.html";
+  }, 3000);
+}
+
+    const checkoutData = JSON.parse(localStorage.getItem('checkoutDetails')) || {};
+    document.getElementById('checkoutAddress').innerHTML =
+  `${checkoutData.name || 'Your Name'}<br>${checkoutData.currentAddress || 'Your Address'}`;
+
+
+
+    function togglePopup() {
+      document.getElementById('popup').style.display = 'block';
+    }
+    function closePopup() {
+      document.getElementById('popup').style.display = 'none';
+    }
+
+    function saveNewAddress() {
+      const name = document.getElementById('newName').value.trim();
+      const contact = document.getElementById('newContact').value.trim();
+      const address = document.getElementById('newAddress').value.trim();
+
+      if (!name || !contact || !address) {
+        alert("Please complete all fields.");
+        return;
+      }
+
+      const formatted = `${name.replace(/\b\w/g, c => c.toUpperCase())}<br>${contact}<br>${address.replace(/\b\w/g, c => c.toUpperCase())}`;
+      const radio = document.createElement('label');
+      radio.innerHTML = `<input type="radio" name="address" value="${formatted}"> <span>${formatted}</span>`;
+      const container = document.getElementById('addressOptions');
+      container.appendChild(radio);
+      closePopup();
+    }
+
+    document.querySelectorAll('input[name="payment"]').forEach(el => {
+      el.addEventListener('change', () => {
+        document.getElementById('cbSection').style.display = 'none';
+        setTimeout(() => document.getElementById('cbSection').style.display = 'block', 200);
+      });
+    });
+
+
+
+    function placeOrder() {
+      const pay = document.querySelector('input[name="payment"]:checked');
+      const addr = document.querySelector('input[name="address"]:checked');
+      const check = document.getElementById('sameDelivery');
+    
+      if (!pay) {
+        alert("Please select a payment method.");
+        return;
+      }
+      if (!addr || !check.checked) {
+        alert("Please select or add an address and confirm delivery.");
+        return;
+      }
+    
+      const paymentMode = pay.value.toUpperCase();
+      const deliveryAddress = addr.nextElementSibling.innerHTML;
+      const orderItems = JSON.parse(localStorage.getItem('checkoutItem')) || [];
+    
+      const order = {
+        email: checkoutData.email || 'guest@example.com',
+        date: new Date().toISOString(),
+        estimatedDelivery: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000).toDateString(),
+        items: orderItems,
+        paymentMode,
+        deliveryAddress
+      };
+    
+      // ✅ Build HTML for message_html using table-based structure
+      let totalAmount = 0;
+      let emailMessage = ``;
+    
+      order.items.forEach(item => {
+        const itemTotal = Number(item.price) * Number(item.qty);
+        totalAmount += itemTotal;
+    
+        emailMessage += `
+          <table style="width: 100%; border-collapse: collapse">
+            <tr style="vertical-align: top">
+              <td style="padding: 24px 8px 0 4px">
+                <img style="height: 64px" height="64px" src="${item.image}" alt="${item.name}" />
+              </td>
+              <td style="padding: 24px 8px 0 8px; width: 100%">
+                <div><strong>${item.name}</strong></div>
+                <div style="font-size: 14px; color: #888; padding-top: 4px">QTY: ${item.qty}</div>
+              </td>
+              <td style="padding: 24px 4px 0 0; white-space: nowrap">
+                <strong>₹${item.price}</strong>
+              </td>
+            </tr>
+          </table>
+        `;
+      });
+    
+      emailjs.send("service_v1avwdt", "template_0pm6m3o", {
+        email: order.email,
+        order_date: new Date(order.date).toDateString(),
+        delivery_date: order.estimatedDelivery,
+        payment_mode: order.paymentMode,
+        delivery_address: order.deliveryAddress,
+        total_amount: totalAmount,
+        user_name: checkoutData.name || "Guest",
+        message_html: emailMessage
+      })
+      .then(() => console.log("✅ Confirmation email sent."))
+      .catch(err => console.error("❌ EmailJS error:", err));
+    
+      // ✅ Store order locally
+      let orders = JSON.parse(localStorage.getItem('orders')) || [];
+      orders.push(order);
+      localStorage.setItem('orders', JSON.stringify(orders));
+      localStorage.removeItem('cart');
+      localStorage.removeItem('isBuyNow');
+    
+      // ✅ Show success animation
+      document.querySelector('.container').style.display = 'none';
+      document.getElementById('successScreen').style.display = 'flex';
+    
+      const emojis = ['🎉', '🎊', '✨', '💥', '🎈'];
+      for (let i = 0; i < 40; i++) {
+        const emoji = document.createElement('div');
+        emoji.className = 'emoji';
+        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      
+        emoji.style.left = `${Math.random() * 100}vw`;
+        emoji.style.top = `-${Math.random() * 20}vh`; // Vary top position
+        emoji.style.position = 'fixed';
+        emoji.style.fontSize = '2rem';
+        emoji.style.zIndex = '99999';
+        emoji.style.animation = `fall ${3 + Math.random() * 2}s linear forwards`;
+      
+        document.body.appendChild(emoji);
+        setTimeout(() => emoji.remove(), 4000);
+      }
+      
+    
+      // ✅ Redirect to homepage
+      setTimeout(() => window.location.href = 'index.html', 4000);
+    }
+    
+    
+    let countdownTime = 300, timerStarted = false;
+    function updateCountdown() {
+      const m = String(Math.floor(countdownTime / 60)).padStart(2, '0'),
+            s = String(countdownTime % 60).padStart(2, '0');
+      document.getElementById("countdown").textContent = `⏳ ${m}:${s} remaining`;
+      if (countdownTime <= 0) {
+        alert("Time expired. Redirecting...");
+        window.location.href = "checkout.html";
+      } else {
+        countdownTime--;
+        setTimeout(updateCountdown, 1000);
+      }
+    }
+    document.body.addEventListener('click', function once() {
+      if (!timerStarted) {
+        timerStarted = true;
+        updateCountdown();
+      }
+    }, { once: true });
+
+
+    function calculateTotalAmount() {
+      const isBuyNow = localStorage.getItem('isBuyNow') === 'true';
+      let total = 0;
+    
+      // Always rely on 'checkoutItem' array for both cases
+      const items = JSON.parse(localStorage.getItem('checkoutItem')) || [];
+    
+      if (items.length === 0) {
+        document.getElementById("payAmount").textContent = `₹0`;
+        return;
+      }
+    
+      items.forEach(item => {
+        const price = Number(item.price) || 0;
+        const qty = Number(item.qty || item.quantity || 1);
+        total += price * qty;
+      });
+    
+      document.getElementById("payAmount").textContent = `₹${total.toLocaleString('en-IN')}`;
+    }
+    
+    
+
+    calculateTotalAmount();
+
+
+  </script>
+</body>
+</html>
